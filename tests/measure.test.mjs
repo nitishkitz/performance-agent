@@ -98,3 +98,12 @@ test('reports a clear error when no build exists', () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('does not mistake an unbuilt project root for build output', () => {
+  const dir = tree({ 'package.json': '{}', 'styles/site.css': 'body{}', 'src/a.js': 'export {}' });
+  try {
+    assert.throws(() => measureBuild(dir), /No build output found/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

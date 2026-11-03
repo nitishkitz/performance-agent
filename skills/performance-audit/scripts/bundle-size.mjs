@@ -23,6 +23,10 @@ function findBuildDir(input) {
     if (existsSync(p) && statSync(p).isDirectory()) return { root, dir: p, kind: d === '.next' ? 'next' : 'static' };
   }
   const isNext = existsSync(join(root, 'build-manifest.json')) || existsSync(join(root, 'app-build-manifest.json'));
+  if (!isNext && existsSync(join(root, 'package.json'))) {
+    // A project root with no recognized output directory: measuring it would count source files as a build.
+    throw new Error(`No build output found in ${root} (looked for ${CANDIDATE_DIRS.join(', ')}). Run the project's production build first, or pass the build output directory itself.`);
+  }
   return { root, dir: root, kind: isNext ? 'next' : 'static' };
 }
 
