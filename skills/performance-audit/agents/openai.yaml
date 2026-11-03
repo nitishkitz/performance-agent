@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performance Audit"
+  short_description: "Find repository performance issues with evidence"
+  default_prompt: "Use $performance-audit to inspect this repository for performance bottlenecks and report prioritized findings without changing source files."
