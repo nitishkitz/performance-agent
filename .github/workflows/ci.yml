@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
+      - name: Smoke-test CLIs
+        run: |
+          node skills/performance-audit/scripts/detect-stack.mjs examples/sample-app > /dev/null
+          node skills/performance-audit/scripts/scan.mjs examples/sample-app --json > /dev/null
+          node skills/performance-audit/scripts/compare-runs.mjs --baseline 5,6,7,8,9 --candidate 1,2,3,4,5 > /dev/null

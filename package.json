@@ -1,0 +1,15 @@
+{
+  "name": "performance-agent",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Evidence-driven performance audit skill for coding agents.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "scan:example": "node skills/performance-audit/scripts/scan.mjs examples/sample-app"
+  }
+}
